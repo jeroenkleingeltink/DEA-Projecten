@@ -1,13 +1,10 @@
 package School;
 
-/**
- * Hello world!
- *
- */
 public class App 
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        // Print FizzBuzz up to number 100
+        FizzBuzz.FizzBuzzPrinter(100);
     }
 }

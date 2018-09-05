@@ -1,9 +1,11 @@
-class FizzBuzzPrinter {
+package School;
+
+class FizzBuzz {
     /**
      * Functions that prints Fizz, Buzz or number up to given parameter maximum
      * @param counter - maximum number for which FizzBuzzPrinter will be calculated
      */
-    static void PrintFizzBuzz(int counter) {
+    static void FizzBuzzPrinter(int counter) {
         for (int i = 0; i <= counter; i++) {
 
             String result;
