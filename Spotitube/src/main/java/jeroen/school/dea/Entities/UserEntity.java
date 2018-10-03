@@ -1,8 +1,7 @@
 package jeroen.school.dea.Entities;
 
 public class UserEntity {
-    private String firstname;
-    private String lastname;
+    private String user;
     private String token;
 
     public String getToken() {
@@ -13,19 +12,11 @@ public class UserEntity {
         this.token = token;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getUser() {
+        return user;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setUser(String user) {
+        this.user = user;
     }
 }
