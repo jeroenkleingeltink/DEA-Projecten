@@ -18,14 +18,17 @@ public class UserService {
     public static UserEntity validateUser(UserModel user) throws SQLException {
         UserEntity loggedInUser = new UserEntity();
 
+        System.out.println(user.getUser());
+        System.out.println(user.getPassword());
+
+        con = MysqlConnectionService.getConnection();
+
         String query = "SELECT * FROM user WHERE username = ? AND password = ?";
 
         PreparedStatement prep = con.prepareStatement(query);
-        prep.setString(1, user.getUsername());
+        prep.setString(1, user.getUser());
         prep.setString(2, user.getPassword());
         ResultSet rs = prep.executeQuery();
-
-        System.out.println(rs);
 
         if (!rs.next()){
             throw new SQLException("Not found");

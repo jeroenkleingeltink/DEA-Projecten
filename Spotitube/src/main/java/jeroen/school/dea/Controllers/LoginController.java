@@ -23,17 +23,18 @@ public class LoginController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response login(UserModel user) {
-        // validate log in with AuthenticationHandler
         UserEntity ue = new UserEntity();
+
         try {
+
             ue = UserService.validateUser(user);
+
         } catch (SQLException e) {
+
             e.printStackTrace();
+
         }
 
-        // get userentity from authenticationhandler
-        System.out.println(ue);
-        // return user entity
         return Response.ok().entity(ue).build();
     }
 }
