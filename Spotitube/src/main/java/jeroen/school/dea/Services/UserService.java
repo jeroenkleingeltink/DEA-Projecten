@@ -1,5 +1,6 @@
 package jeroen.school.dea.Services;
 
+import jeroen.school.dea.DataSource.Utilities.MysqlConnection;
 import jeroen.school.dea.Entities.UserEntity;
 import jeroen.school.dea.Models.UserModel;
 
@@ -12,7 +13,7 @@ public class UserService {
     private static Connection con;
 
     public UserService() {
-        con = MysqlConnectionService.getConnection();
+        con = MysqlConnection.getConnection();
     }
 
     public static UserEntity validateUser(UserModel user) throws SQLException {
@@ -21,7 +22,7 @@ public class UserService {
         System.out.println(user.getUser());
         System.out.println(user.getPassword());
 
-        con = MysqlConnectionService.getConnection();
+        con = MysqlConnection.getConnection();
 
         String query = "SELECT * FROM user WHERE username = ? AND password = ?";
 
