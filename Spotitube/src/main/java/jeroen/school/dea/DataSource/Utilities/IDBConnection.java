@@ -1,6 +1,7 @@
 package jeroen.school.dea.DataSource.Utilities;
 
-public interface IDBConnection {
-    // euh weet ik even niet
+import java.sql.Connection;
 
+public interface IDBConnection {
+    Connection getConnection();
 }

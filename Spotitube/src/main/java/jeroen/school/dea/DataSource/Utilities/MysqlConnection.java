@@ -5,35 +5,33 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public abstract class MysqlConnection {
+public
+class MysqlConnection implements IDBConnection {
     private static Connection connection;
 
     @Inject
-    private static DBProperties pr;
+    private IDBProperties pr;
 
-    private MysqlConnection() {}
+    @Override
+    public Connection getConnection() {
+        try {
 
-    public static Connection getConnection() {
-        if (connection == null) {
+            Class.forName(pr.getDriver());
+
             try {
 
-                Class.forName(pr.getDriver());
+                connection = DriverManager.getConnection(pr.getConnectionString(), pr.getUsername(), pr.getPassword());
 
-                try {
+            } catch (SQLException e) {
 
-                    connection = DriverManager.getConnection(pr.getConnectionString(), pr.getUsername(), pr.getPassword());
-
-                } catch (SQLException e) {
-
-                    System.out.println("Failed to create database connection!");
-
-                }
-
-            } catch (ClassNotFoundException e) {
-
-                System.out.println("Driver not found!");
+                System.out.println("Failed to create database connection!");
 
             }
+
+        } catch (ClassNotFoundException e) {
+
+            System.out.println("Driver not found!");
+
         }
 
         return connection;

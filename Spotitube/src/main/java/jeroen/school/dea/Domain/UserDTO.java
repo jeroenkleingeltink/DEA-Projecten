@@ -1,8 +1,8 @@
-package jeroen.school.dea.Entities;
+package jeroen.school.dea.Domain;
 
-public class UserEntity {
-    private String user;
+public class UserDTO {
     private String token;
+    private String user;
 
     public String getToken() {
         return token;

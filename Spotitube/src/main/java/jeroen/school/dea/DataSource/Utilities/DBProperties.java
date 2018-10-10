@@ -3,7 +3,7 @@ package jeroen.school.dea.DataSource.Utilities;
 import java.io.IOException;
 import java.util.Properties;
 
-public class DBProperties {
+public class DBProperties implements IDBProperties {
     private Properties properties;
 
     public DBProperties() {
@@ -25,6 +25,7 @@ public class DBProperties {
      * Returns database driver
      * @return String
      */
+    @Override
     public String getDriver() {
         return properties.getProperty("driver");
     }
@@ -33,6 +34,7 @@ public class DBProperties {
      * Returns database connection string
      * @return String
      */
+    @Override
     public String getConnectionString() {
         return properties.getProperty("connectionstring");
     }
@@ -41,6 +43,7 @@ public class DBProperties {
      * Returns database username
      * @return String
      */
+    @Override
     public String getUsername() {
         return properties.getProperty("username");
     }
@@ -49,6 +52,7 @@ public class DBProperties {
      * Returns database password
      * @return String
      */
+    @Override
     public String getPassword() {
         return properties.getProperty("password");
     }

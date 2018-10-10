@@ -1,6 +1,6 @@
-package jeroen.school.dea.Models;
+package jeroen.school.dea.Domain;
 
-public class UserModel {
+public class LoginDTO {
     private String user;
     private String password;
 
