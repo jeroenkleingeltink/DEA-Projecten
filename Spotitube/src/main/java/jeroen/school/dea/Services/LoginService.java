@@ -18,8 +18,8 @@ public class LoginService {
 
     public LoginService() {}
 
-    @Path("/login")
     @POST
+    @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response login(LoginDTO user) {
         UserDTO loggedInUser;
@@ -29,7 +29,7 @@ public class LoginService {
         } catch (SQLException e) {
             e.printStackTrace();
 
-            return Response.status(401).build();
+            return Response.status(500).build();
         }
 
         return Response.status(200).entity(loggedInUser).build();

@@ -34,6 +34,6 @@ public class Main {
     public Response reverseCalcGet(@PathParam("value") String input) {
         IStringer stringer = new StringCalcAdapter(new StringCalc(input));
 
-        return Response.ok(String.format("{\"Reverse calced\": \"%s\"}", stringer.getReverse())).build();
+        return Response.ok(String.format("e", stringer.getReverse())).build();
     }
 }

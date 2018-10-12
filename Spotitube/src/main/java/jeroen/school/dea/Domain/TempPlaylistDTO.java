@@ -3,19 +3,11 @@ package jeroen.school.dea.Domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlaylistDTO {
+public class TempPlaylistDTO {
     private int id;
     private String name;
     private int owner;
     private List<TrackDTO> tracks = new ArrayList<>();
-
-    public PlaylistDTO(){}
-
-    public PlaylistDTO(int id, String name, int owner) {
-        this.id = id;
-        this.name = name;
-        this.owner = owner;
-    }
 
     public int getId() {
         return id;

@@ -1,34 +1,122 @@
 package jeroen.school.dea.Services;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
+import jeroen.school.dea.DataSource.IPlaylistDAO;
+import jeroen.school.dea.DataSource.IUserDAO;
+import jeroen.school.dea.Domain.PlaylistDTO;
+import jeroen.school.dea.Domain.TempPlaylistDTO;
+import jeroen.school.dea.Domain.PlaylistsDTO;
+
+import javax.inject.Inject;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import java.sql.SQLException;
 
 @Path("/")
 public class PlaylistService {
+    private PlaylistsDTO playlists;
+    private int userId;
 
-    @Path("/playlists")
+    @Inject
+    private IUserDAO user;
+
+    @Inject
+    private IPlaylistDAO playlist;
+
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/playlists")
     public Response getAllPlayLists(@QueryParam("token") String token) {
-        return Response.ok(String.format("{\"playlists\" :[\n" +
-                "               {\n" +
-                "                  \"id\"    : 1,\n" +
-                "                  \"name\"  : \"Death metal\",\n" +
-                "                  \"owner\" : \"henk\",\n" +
-                "                  \"tracks\": []\n" +
-                "               },\n" +
-                "               {\n" +
-                "                  \"id\"    : 2,\n" +
-                "                  \"name\"  : \"Pop\",\n" +
-                "                  \"owner\" : 1,\n" +
-                "                  \"tracks\": []\n" +
-                "               }\n" +
-                "              ],\n" +
-                "  \"length\"  :0}")).build();
+        playlists = new PlaylistsDTO();
 
+        try {
+            userId = user.getUserIdByToken(token);
+
+            playlists = playlist.getAllPlayListsByToken(userId);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+            return Response.status(500).build();
+        }
+
+        return Response.status(200).entity(playlists).build();
+    }
+
+    /**
+     * Deletes a playlist
+     * @param playlistId
+     * @param token
+     * @return List of current playlists based on userId
+     */
+    @DELETE
+    @Path("/playlists/{id}")
+    public Response deletePlayListById(@PathParam("id") int playlistId, @QueryParam("token") String token) {
+        playlists = new PlaylistsDTO();
+
+        try {
+            userId = user.getUserIdByToken(token);
+
+            if (playlist.deletePlaylistById(playlistId)) {
+
+                playlists = playlist.getAllPlayListsByToken(userId);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+            return Response.status(500).build();
+
+        }
+
+        return Response.status(200).entity(playlists).build();
+    }
+
+    /**
+     * Creates a new playlist by userId
+     * @param token
+     * @param newPlaylist
+     * @return List of current playlists based on userId
+     */
+    @POST
+    @Path("/playlists")
+    public Response createPlaylist(@QueryParam("token") String token, TempPlaylistDTO newPlaylist) {
+        playlists = new PlaylistsDTO();
+
+        try {
+            userId = user.getUserIdByToken(token);
+
+            if (playlist.createNewPlaylist(newPlaylist, userId)) {
+
+                playlists = playlist.getAllPlayListsByToken(userId);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+            return Response.status(500).build();
+        }
+
+        return Response.status(200).entity(playlists).build();
+    }
+
+    @PUT
+    @Path("playlists/{id}")
+    public Response editPlaylist(@QueryParam("token") String token, TempPlaylistDTO tempPlaylistDTO) {
+        playlists = new PlaylistsDTO();
+
+        try {
+            userId = user.getUserIdByToken(token);
+
+            if (playlist.updatePlaylist(tempPlaylistDTO)) {
+
+                playlists = playlist.getAllPlayListsByToken(userId);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+            return Response.status(500).build();
+        }
+
+        return Response.status(200).entity(playlists).build();
     }
 }

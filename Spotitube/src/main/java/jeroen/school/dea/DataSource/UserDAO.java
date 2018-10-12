@@ -41,4 +41,34 @@ public class UserDAO implements IUserDAO {
 
         return loggedInUser;
     }
+
+    /**
+     * Gets the userId based on the token
+     * @param token
+     * @return Int userId
+     * @throws SQLException
+     */
+    @Override
+    public int getUserIdByToken(String token) throws SQLException {
+        connection = dbCon.getConnection();
+        int userId = 0;
+
+        String query = "SELECT userid FROM user WHERE token = ?";
+
+        PreparedStatement prep = connection.prepareStatement(query);
+        prep.setString(1, token);
+        ResultSet rs = prep.executeQuery();
+
+        if (!rs.next()) {
+            throw new SQLException("No query results found.");
+        } else {
+            rs.beforeFirst();
+
+            while(rs.next()) {
+                userId = rs.getInt("userid");
+            }
+        }
+
+        return userId;
+    }
 }
