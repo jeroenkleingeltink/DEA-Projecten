@@ -3,10 +3,10 @@ package jeroen.school.dea.Domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TempPlaylistDTO {
+public class CreatePlaylistDTO {
     private int id;
     private String name;
-    private int owner;
+    private boolean owner;
     private List<TrackDTO> tracks = new ArrayList<>();
 
     public int getId() {
@@ -25,19 +25,19 @@ public class TempPlaylistDTO {
         this.name = name;
     }
 
-    public int getOwner() {
-        return owner;
-    }
-
-    public void setOwner(int owner) {
-        this.owner = owner;
-    }
-
     public List<TrackDTO> getTracks() {
         return tracks;
     }
 
     public void setTracks(List<TrackDTO> tracks) {
         this.tracks = tracks;
+    }
+
+    public boolean isOwner() {
+        return owner;
+    }
+
+    public void setOwner(boolean owner) {
+        this.owner = owner;
     }
 }

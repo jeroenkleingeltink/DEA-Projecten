@@ -11,6 +11,18 @@ public class TrackDTO {
     private String description;
     private boolean offlineAvailable;
 
+    public TrackDTO(int trackid, String title, String performer, int duration, String album, int playcount, String publicationdate, String description, boolean offlineavailable) {
+        this.id = trackid;
+        this.title = title;
+        this.performer = performer;
+        this.duration = duration;
+        this.album = album;
+        this.playcount = playcount;
+        this.publicationDate = publicationdate;
+        this.description = description;
+        this.offlineAvailable = offlineavailable;
+    }
+
     public boolean isOfflineAvailable() {
         return offlineAvailable;
     }

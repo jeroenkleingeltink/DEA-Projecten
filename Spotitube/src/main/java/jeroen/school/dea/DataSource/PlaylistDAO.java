@@ -1,7 +1,7 @@
 package jeroen.school.dea.DataSource;
 
 import jeroen.school.dea.DataSource.Utilities.IDBConnection;
-import jeroen.school.dea.Domain.TempPlaylistDTO;
+import jeroen.school.dea.Domain.CreatePlaylistDTO;
 import jeroen.school.dea.Domain.PlaylistDTO;
 import jeroen.school.dea.Domain.PlaylistsDTO;
 
@@ -73,7 +73,7 @@ public class PlaylistDAO implements IPlaylistDAO {
     }
 
     @Override
-    public boolean createNewPlaylist(TempPlaylistDTO newPlaylist, int userId) throws SQLException {
+    public boolean createNewPlaylist(CreatePlaylistDTO newPlaylist, int userId) throws SQLException {
         connection = dbCon.getConnection();
 
         String query = "INSERT INTO playlist (name, owner) VALUES (?, ?)";
@@ -91,7 +91,7 @@ public class PlaylistDAO implements IPlaylistDAO {
     }
 
     @Override
-    public boolean updatePlaylist(TempPlaylistDTO changedPlaylist) throws SQLException {
+    public boolean updatePlaylist(PlaylistDTO changedPlaylist) throws SQLException {
         connection = dbCon.getConnection();
 
         @SuppressWarnings({"SqlNoDataSourceInspection", "SqlDialectInspection"})

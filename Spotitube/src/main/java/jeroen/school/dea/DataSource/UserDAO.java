@@ -1,6 +1,7 @@
 package jeroen.school.dea.DataSource;
 
 import jeroen.school.dea.DataSource.Utilities.IDBConnection;
+import jeroen.school.dea.DataSource.Exceptions.UserNotFoundException;
 import jeroen.school.dea.Domain.LoginDTO;
 import jeroen.school.dea.Domain.UserDTO;
 
@@ -29,7 +30,7 @@ public class UserDAO implements IUserDAO {
         ResultSet rs = prep.executeQuery();
 
         if (!rs.next()) {
-            throw new SQLException("No query results found.");
+            throw new UserNotFoundException("No user results found.");
         } else {
             rs.beforeFirst();
 
@@ -60,7 +61,7 @@ public class UserDAO implements IUserDAO {
         ResultSet rs = prep.executeQuery();
 
         if (!rs.next()) {
-            throw new SQLException("No query results found.");
+            throw new UserNotFoundException("No user results found.");
         } else {
             rs.beforeFirst();
 
