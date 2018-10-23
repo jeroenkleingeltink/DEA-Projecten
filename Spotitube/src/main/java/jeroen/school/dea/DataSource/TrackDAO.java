@@ -22,7 +22,7 @@ public class TrackDAO implements ITrackDAO{
         tracks = new TracksDTO();
         connection = dbCon.getConnection();
 
-        String query = "SELECT * FROM track t INNER JOIN playlisttrack p on t.trackid = p.trackid WHERE p.playlistid != ?";
+        String query = "SELECT * FROM track t WHERE NOT EXISTS (SELECT null FROM playlisttrack pt WHERE playlistid = ? AND pt.trackid = t.trackid)";
         PreparedStatement prep = connection.prepareStatement(query);
         prep.setInt(1, playlistId);
 
@@ -68,6 +68,23 @@ public class TrackDAO implements ITrackDAO{
         return true;
     }
 
+    @Override
+    public boolean addTrackToPlaylist(int playlistId, int trackId) throws SQLException {
+        connection = dbCon.getConnection();
+
+        String query = "INSERT INTO playlisttrack (playlistid, trackid) VALUES (?, ?)";
+        PreparedStatement prep = connection.prepareStatement(query);
+        prep.setInt(1, playlistId);
+        prep.setInt(2, trackId);
+
+        int rs = prep.executeUpdate();
+
+        if (rs == 0) {
+            throw new SQLException("Track not added to playlist.");
+        }
+
+        return true;
+    }
 
     /**
      * creates tracklist from result set
@@ -75,10 +92,10 @@ public class TrackDAO implements ITrackDAO{
      * @throws SQLException
      */
     private void createTracklist(ResultSet rs) throws SQLException {
-        if (!rs.next()) {
-            throw new SQLException("No tracks found.");
-        } else {
-            rs.beforeFirst();
+//        if (!rs.next()) {
+//            throw new SQLException("No tracks found.");
+//        } else {
+//            rs.beforeFirst();
 
             while (rs.next()) {
                 tracks.getTracks().add(
@@ -95,6 +112,6 @@ public class TrackDAO implements ITrackDAO{
                         )
                 );
             }
-        }
+//        }
     }
 }

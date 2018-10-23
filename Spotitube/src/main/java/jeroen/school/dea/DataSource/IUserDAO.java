@@ -8,4 +8,5 @@ import java.sql.SQLException;
 public interface IUserDAO {
     UserDTO validate(LoginDTO user) throws SQLException;
     int getUserIdByToken(String token) throws SQLException;
+    boolean isPlaylistOwner(int playlistId, int userId) throws SQLException;
 }

@@ -1,8 +1,10 @@
 package jeroen.school.dea.Services;
 
+import jdk.management.resource.internal.inst.UnixAsynchronousServerSocketChannelImplRMHooks;
 import jeroen.school.dea.DataSource.Exceptions.UserNotFoundException;
 import jeroen.school.dea.DataSource.ITrackDAO;
 import jeroen.school.dea.DataSource.IUserDAO;
+import jeroen.school.dea.Domain.TrackDTO;
 import jeroen.school.dea.Domain.TracksDTO;
 
 import javax.inject.Inject;
@@ -29,7 +31,9 @@ public class TrackService {
         try {
             userId = user.getUserIdByToken(token);
 
-            tracks = track.getAllTracksNotInPlaylist(playlistId);
+            if (user.isPlaylistOwner(playlistId, userId)) {
+                tracks = track.getAllTracksNotInPlaylist(playlistId);
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -48,12 +52,16 @@ public class TrackService {
         try {
             int userId = user.getUserIdByToken(token);
 
-            tracks = track.getAllTracksByPlaylistId(playlistId);
+            if (user.isPlaylistOwner(playlistId, userId)) {
+
+                tracks = track.getAllTracksByPlaylistId(playlistId);
+
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
 
-            return Response.status(500).build();
+            return Response.status(200).build();
         }
 
         return Response.status(200).entity(tracks).build();
@@ -71,6 +79,31 @@ public class TrackService {
 
             if (track.deleteTrackFromPlaylist(playlistId, trackId)) {
                 tracks = track.getAllTracksByPlaylistId(playlistId);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+            return Response.status(500).build();
+        }
+
+        return Response.status(200).entity(tracks).build();
+    }
+
+    @POST
+    @Path("/playlists/{id}/tracks")
+    public Response addTrackToPlaylist(@PathParam("id") int playlistId, @QueryParam("token") String token, TrackDTO pTrack) {
+        tracks = new TracksDTO();
+
+        System.out.println("playlistId" + playlistId + " Track ID: " + pTrack.getId());
+
+        try {
+            int userId = user.getUserIdByToken(token);
+
+            if (user.isPlaylistOwner(playlistId, userId) && track.addTrackToPlaylist(playlistId, pTrack.getId())) {
+
+                tracks = track.getAllTracksByPlaylistId(playlistId);
+
             }
 
         } catch (SQLException e) {

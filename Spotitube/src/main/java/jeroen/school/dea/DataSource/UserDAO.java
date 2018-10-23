@@ -72,4 +72,22 @@ public class UserDAO implements IUserDAO {
 
         return userId;
     }
+
+    @Override
+    public boolean isPlaylistOwner(int playlistId, int userId) throws SQLException {
+        connection = dbCon.getConnection();
+
+        String query = "SELECT * FROM playlist WHERE playlistid = ? AND owner = ?";
+
+        PreparedStatement prep = connection.prepareStatement(query);
+        prep.setInt(1, playlistId);
+        prep.setInt(2, userId);
+        ResultSet rs = prep.executeQuery();
+
+        if (!rs.next()) {
+            return false;
+        }
+
+        return true;
+    }
 }
