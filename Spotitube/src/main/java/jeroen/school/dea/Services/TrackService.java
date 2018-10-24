@@ -1,15 +1,15 @@
 package jeroen.school.dea.Services;
 
-import jdk.management.resource.internal.inst.UnixAsynchronousServerSocketChannelImplRMHooks;
-import jeroen.school.dea.DataSource.Exceptions.UserNotFoundException;
 import jeroen.school.dea.DataSource.ITrackDAO;
 import jeroen.school.dea.DataSource.IUserDAO;
-import jeroen.school.dea.Domain.TrackDTO;
+import jeroen.school.dea.Domain.AddTrackDTO;
 import jeroen.school.dea.Domain.TracksDTO;
+import jeroen.school.dea.Exceptions.UnauthorizedException;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 
 @Path("/")
@@ -29,7 +29,7 @@ public class TrackService {
         tracks = new TracksDTO();
 
         try {
-            userId = user.getUserIdByToken(token);
+            userId = user.validate(token);
 
             if (user.isPlaylistOwner(playlistId, userId)) {
                 tracks = track.getAllTracksNotInPlaylist(playlistId);
@@ -38,10 +38,14 @@ public class TrackService {
         } catch (SQLException e) {
             e.printStackTrace();
 
-            return Response.status(500).build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        } catch (UnauthorizedException u) {
+            u.printStackTrace();
+
+            return Response.status(Response.Status.UNAUTHORIZED).build();
         }
 
-        return Response.status(200).entity(tracks).build();
+        return Response.ok().entity(tracks).build();
     }
 
     @GET
@@ -50,7 +54,7 @@ public class TrackService {
         tracks = new TracksDTO();
 
         try {
-            int userId = user.getUserIdByToken(token);
+            userId = user.validate(token);
 
             if (user.isPlaylistOwner(playlistId, userId)) {
 
@@ -61,10 +65,14 @@ public class TrackService {
         } catch (SQLException e) {
             e.printStackTrace();
 
-            return Response.status(200).build();
+            return Response.ok().status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        } catch (UnauthorizedException e) {
+            e.printStackTrace();
+
+            return Response.status(Response.Status.UNAUTHORIZED).build();
         }
 
-        return Response.status(200).entity(tracks).build();
+        return Response.ok().entity(tracks).build();
     }
 
     @DELETE
@@ -75,7 +83,7 @@ public class TrackService {
         tracks = new TracksDTO();
 
         try {
-            int userId = user.getUserIdByToken(token);
+            userId = user.validate(token);
 
             if (track.deleteTrackFromPlaylist(playlistId, trackId)) {
                 tracks = track.getAllTracksByPlaylistId(playlistId);
@@ -85,6 +93,10 @@ public class TrackService {
             e.printStackTrace();
 
             return Response.status(500).build();
+        } catch (UnauthorizedException e) {
+            e.printStackTrace();
+
+            return Response.status(Response.Status.UNAUTHORIZED).build();
         }
 
         return Response.status(200).entity(tracks).build();
@@ -92,13 +104,11 @@ public class TrackService {
 
     @POST
     @Path("/playlists/{id}/tracks")
-    public Response addTrackToPlaylist(@PathParam("id") int playlistId, @QueryParam("token") String token, TrackDTO pTrack) {
+    public Response addTrackToPlaylist(@PathParam("id") int playlistId, @QueryParam("token") String token, AddTrackDTO pTrack) {
         tracks = new TracksDTO();
 
-        System.out.println("playlistId" + playlistId + " Track ID: " + pTrack.getId());
-
         try {
-            int userId = user.getUserIdByToken(token);
+            int userId = user.validate(token);
 
             if (user.isPlaylistOwner(playlistId, userId) && track.addTrackToPlaylist(playlistId, pTrack.getId())) {
 
@@ -109,9 +119,13 @@ public class TrackService {
         } catch (SQLException e) {
             e.printStackTrace();
 
-            return Response.status(500).build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        } catch (UnauthorizedException e) {
+            e.printStackTrace();
+
+            return Response.status(Response.Status.UNAUTHORIZED).build();
         }
 
-        return Response.status(200).entity(tracks).build();
+        return Response.ok().entity(tracks).build();
     }
 }

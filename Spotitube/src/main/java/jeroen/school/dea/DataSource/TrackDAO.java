@@ -92,26 +92,20 @@ public class TrackDAO implements ITrackDAO{
      * @throws SQLException
      */
     private void createTracklist(ResultSet rs) throws SQLException {
-//        if (!rs.next()) {
-//            throw new SQLException("No tracks found.");
-//        } else {
-//            rs.beforeFirst();
-
-            while (rs.next()) {
-                tracks.getTracks().add(
-                        new TrackDTO(
-                                rs.getInt("trackid"),
-                                rs.getString("title"),
-                                rs.getString("performer"),
-                                rs.getInt("duration"),
-                                rs.getString("album"),
-                                rs.getInt("playcount"),
-                                rs.getString("publicationdate"),
-                                rs.getString("description"),
-                                rs.getBoolean("offlineavailable")
-                        )
-                );
-            }
-//        }
+        while (rs.next()) {
+            tracks.getTracks().add(
+                new TrackDTO(
+                    rs.getInt("trackid"),
+                    rs.getString("title"),
+                    rs.getString("performer"),
+                    rs.getInt("duration"),
+                    rs.getString("album"),
+                    rs.getInt("playcount"),
+                    rs.getString("publicationdate"),
+                    rs.getString("description"),
+                    rs.getBoolean("offlineavailable")
+                )
+            );
+        }
     }
 }

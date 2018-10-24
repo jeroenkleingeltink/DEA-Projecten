@@ -1,8 +1,8 @@
-package jeroen.school.dea.DataSource.Exceptions;
+package jeroen.school.dea.Exceptions;
 
 import java.sql.SQLException;
 
-public class UserNotFoundException extends SQLException {
+public class UserNotFoundException extends Exception {
     public UserNotFoundException() {}
 
     public UserNotFoundException(String message) {

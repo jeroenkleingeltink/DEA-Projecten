@@ -34,7 +34,7 @@ public class PlaylistService {
         playlists = new PlaylistsDTO();
 
         try {
-            userId = user.getUserIdByToken(token);
+            userId = user.validate(token);
 
             if (playlist.createNewPlaylist(newPlaylist, userId)) {
 
@@ -61,7 +61,7 @@ public class PlaylistService {
         playlists = new PlaylistsDTO();
 
         try {
-            userId = user.getUserIdByToken(token);
+            userId = user.validate(token);
 
             playlists = playlist.getAllPlayListsByToken(userId);
 
@@ -71,7 +71,7 @@ public class PlaylistService {
             return Response.status(500).build();
         }
 
-        return Response.status(200).entity(playlists).build();
+        return Response.ok().entity(playlists).build();
     }
 
     /**
@@ -86,7 +86,7 @@ public class PlaylistService {
         playlists = new PlaylistsDTO();
 
         try {
-            userId = user.getUserIdByToken(token);
+            userId = user.validate(token);
 
             if (playlist.updatePlaylist(playlistDTO)) {
 
@@ -114,7 +114,7 @@ public class PlaylistService {
         playlists = new PlaylistsDTO();
 
         try {
-            userId = user.getUserIdByToken(token);
+            userId = user.validate(token);
 
             if (playlist.deletePlaylistById(playlistId)) {
 

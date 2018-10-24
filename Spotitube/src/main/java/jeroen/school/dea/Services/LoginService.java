@@ -1,9 +1,9 @@
 package jeroen.school.dea.Services;
 
 import jeroen.school.dea.DataSource.IUserDAO;
-import jeroen.school.dea.DataSource.UserDAO;
 import jeroen.school.dea.Domain.LoginDTO;
 import jeroen.school.dea.Domain.UserDTO;
+import jeroen.school.dea.Exceptions.UserNotFoundException;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -22,16 +22,20 @@ public class LoginService {
     @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response login(LoginDTO user) {
-        UserDTO loggedInUser;
+        UserDTO loggedInUser = new UserDTO();
 
         try {
-            loggedInUser = userDAO.validate(user);
+            loggedInUser = userDAO.login(user);
         } catch (SQLException e) {
             e.printStackTrace();
 
-            return Response.status(500).build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        } catch (UserNotFoundException e) {
+            e.printStackTrace();
+
+            return Response.status(Response.Status.UNAUTHORIZED).build();
         }
 
-        return Response.status(200).entity(loggedInUser).build();
+        return Response.ok().entity(loggedInUser).build();
     }
 }

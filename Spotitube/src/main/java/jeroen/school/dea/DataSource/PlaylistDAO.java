@@ -22,7 +22,6 @@ public class PlaylistDAO implements IPlaylistDAO {
         PlaylistsDTO playlists = new PlaylistsDTO();
         connection = dbCon.getConnection();
 
-        @SuppressWarnings("SqlDialectInspection")
         String query = "SELECT pl.playlistid, pl.name, pl.owner,\n" +
                 "(SELECT SUM(t.duration) FROM playlisttrack p INNER JOIN track t on p.trackid = t.trackid WHERE p.playlistid = pl.playlistid) AS length\n" +
                 "FROM playlist pl WHERE owner = ?";
@@ -57,8 +56,6 @@ public class PlaylistDAO implements IPlaylistDAO {
     public boolean deletePlaylistById(int playlistId) throws SQLException {
         connection = dbCon.getConnection();
 
-        //noinspection SqlNoDataSourceInspection
-        @SuppressWarnings("all")
         String query = "DELETE FROM playlist where playlistid = ?";
         PreparedStatement prep = connection.prepareStatement(query);
         prep.setInt(1, playlistId);
@@ -94,7 +91,6 @@ public class PlaylistDAO implements IPlaylistDAO {
     public boolean updatePlaylist(PlaylistDTO changedPlaylist) throws SQLException {
         connection = dbCon.getConnection();
 
-        @SuppressWarnings({"SqlNoDataSourceInspection", "SqlDialectInspection"})
         String query = "UPDATE playlist SET name = ? WHERE playlistid = ?";
         PreparedStatement prep = connection.prepareStatement(query);
         prep.setString(1, changedPlaylist.getName());

@@ -1,11 +1,13 @@
 package jeroen.school.dea.DataSource;
 
 import jeroen.school.dea.DataSource.Utilities.IDBConnection;
-import jeroen.school.dea.DataSource.Exceptions.UserNotFoundException;
+import jeroen.school.dea.Exceptions.UnauthorizedException;
+import jeroen.school.dea.Exceptions.UserNotFoundException;
 import jeroen.school.dea.Domain.LoginDTO;
 import jeroen.school.dea.Domain.UserDTO;
 
 import javax.inject.Inject;
+import javax.ws.rs.NotAuthorizedException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,7 +20,7 @@ public class UserDAO implements IUserDAO {
     private IDBConnection dbCon;
 
     @Override
-    public UserDTO validate(LoginDTO user) throws SQLException {
+    public UserDTO login(LoginDTO user) throws SQLException, UserNotFoundException {
         UserDTO loggedInUser = new UserDTO();
         connection = dbCon.getConnection();
 
@@ -50,7 +52,7 @@ public class UserDAO implements IUserDAO {
      * @throws SQLException
      */
     @Override
-    public int getUserIdByToken(String token) throws SQLException {
+    public int validate(String token) throws SQLException, UnauthorizedException {
         connection = dbCon.getConnection();
         int userId = 0;
 
@@ -61,7 +63,7 @@ public class UserDAO implements IUserDAO {
         ResultSet rs = prep.executeQuery();
 
         if (!rs.next()) {
-            throw new UserNotFoundException("No user results found.");
+            throw new UnauthorizedException("No user results found.");
         } else {
             rs.beforeFirst();
 
