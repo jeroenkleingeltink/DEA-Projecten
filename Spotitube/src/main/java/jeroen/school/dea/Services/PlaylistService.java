@@ -5,6 +5,9 @@ import jeroen.school.dea.DataSource.IUserDAO;
 import jeroen.school.dea.Domain.CreatePlaylistDTO;
 import jeroen.school.dea.Domain.PlaylistDTO;
 import jeroen.school.dea.Domain.PlaylistsDTO;
+import jeroen.school.dea.Exceptions.PlaylistException;
+import jeroen.school.dea.Exceptions.UnauthorizedException;
+import sun.security.provider.certpath.OCSPResponse;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -44,10 +47,18 @@ public class PlaylistService {
         } catch (SQLException e) {
             e.printStackTrace();
 
-            return Response.status(500).build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        } catch (UnauthorizedException e) {
+            e.printStackTrace();
+
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        } catch (PlaylistException e) {
+            e.printStackTrace();
+
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        return Response.status(200).entity(playlists).build();
+        return Response.ok().entity(playlists).build();
     }
 
     /**
@@ -68,7 +79,15 @@ public class PlaylistService {
         } catch (SQLException e) {
             e.printStackTrace();
 
-            return Response.status(500).build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        } catch (UnauthorizedException e) {
+            e.printStackTrace();
+
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        } catch (PlaylistException e) {
+            e.printStackTrace();
+
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
         return Response.ok().entity(playlists).build();
@@ -96,10 +115,18 @@ public class PlaylistService {
         } catch (SQLException e) {
             e.printStackTrace();
 
-            return Response.status(500).build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        } catch (UnauthorizedException e) {
+            e.printStackTrace();
+
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        } catch (PlaylistException e) {
+            e.printStackTrace();
+
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        return Response.status(200).entity(playlists).build();
+        return Response.ok().entity(playlists).build();
     }
 
     /**
@@ -124,10 +151,17 @@ public class PlaylistService {
         } catch (SQLException e) {
             e.printStackTrace();
 
-            return Response.status(500).build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        } catch (UnauthorizedException e) {
+            e.printStackTrace();
 
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        } catch (PlaylistException e) {
+            e.printStackTrace();
+
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        return Response.status(200).entity(playlists).build();
+        return Response.ok().entity(playlists).build();
     }
 }

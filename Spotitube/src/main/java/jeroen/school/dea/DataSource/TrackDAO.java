@@ -3,8 +3,10 @@ package jeroen.school.dea.DataSource;
 import jeroen.school.dea.DataSource.Utilities.IDBConnection;
 import jeroen.school.dea.Domain.TrackDTO;
 import jeroen.school.dea.Domain.TracksDTO;
+import jeroen.school.dea.Exceptions.TrackException;
 
 import javax.inject.Inject;
+import javax.sound.midi.Track;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -50,7 +52,7 @@ public class TrackDAO implements ITrackDAO{
     }
 
     @Override
-    public boolean deleteTrackFromPlaylist(int playlistId, int trackId) throws SQLException {
+    public boolean deleteTrackFromPlaylist(int playlistId, int trackId) throws SQLException, TrackException {
         connection = dbCon.getConnection();
 
         String query = "DELETE FROM playlisttrack WHERE playlistid = ? AND trackid = ?";
@@ -61,15 +63,14 @@ public class TrackDAO implements ITrackDAO{
         int rs = prep.executeUpdate();
 
         if (rs == 0) {
-            // Create track exception
-            throw new SQLException("No tracks found.");
+            throw new TrackException("No tracks found.");
         }
 
         return true;
     }
 
     @Override
-    public boolean addTrackToPlaylist(int playlistId, int trackId) throws SQLException {
+    public boolean addTrackToPlaylist(int playlistId, int trackId) throws SQLException, TrackException {
         connection = dbCon.getConnection();
 
         String query = "INSERT INTO playlisttrack (playlistid, trackid) VALUES (?, ?)";
@@ -80,7 +81,7 @@ public class TrackDAO implements ITrackDAO{
         int rs = prep.executeUpdate();
 
         if (rs == 0) {
-            throw new SQLException("Track not added to playlist.");
+            throw new TrackException("Track not added to playlist.");
         }
 
         return true;

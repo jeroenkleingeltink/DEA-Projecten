@@ -4,6 +4,7 @@ import jeroen.school.dea.DataSource.ITrackDAO;
 import jeroen.school.dea.DataSource.IUserDAO;
 import jeroen.school.dea.Domain.AddTrackDTO;
 import jeroen.school.dea.Domain.TracksDTO;
+import jeroen.school.dea.Exceptions.TrackException;
 import jeroen.school.dea.Exceptions.UnauthorizedException;
 
 import javax.inject.Inject;
@@ -92,14 +93,18 @@ public class TrackService {
         } catch (SQLException e) {
             e.printStackTrace();
 
-            return Response.status(500).build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         } catch (UnauthorizedException e) {
             e.printStackTrace();
 
             return Response.status(Response.Status.UNAUTHORIZED).build();
+        } catch (TrackException e) {
+            e.printStackTrace();
+
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        return Response.status(200).entity(tracks).build();
+        return Response.ok().entity(tracks).build();
     }
 
     @POST
@@ -124,6 +129,10 @@ public class TrackService {
             e.printStackTrace();
 
             return Response.status(Response.Status.UNAUTHORIZED).build();
+        } catch (TrackException e) {
+            e.printStackTrace();
+
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
         return Response.ok().entity(tracks).build();

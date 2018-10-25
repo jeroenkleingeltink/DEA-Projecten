@@ -4,6 +4,8 @@ import jeroen.school.dea.DataSource.Utilities.IDBConnection;
 import jeroen.school.dea.Domain.CreatePlaylistDTO;
 import jeroen.school.dea.Domain.PlaylistDTO;
 import jeroen.school.dea.Domain.PlaylistsDTO;
+import jeroen.school.dea.Exceptions.PlaylistException;
+import jeroen.school.dea.Exceptions.TrackException;
 
 import javax.inject.Inject;
 import java.sql.Connection;
@@ -18,7 +20,7 @@ public class PlaylistDAO implements IPlaylistDAO {
     private IDBConnection dbCon;
 
     @Override
-    public PlaylistsDTO getAllPlayListsByToken(int userId) throws SQLException {
+    public PlaylistsDTO getAllPlayListsByToken(int userId) throws SQLException, PlaylistException {
         PlaylistsDTO playlists = new PlaylistsDTO();
         connection = dbCon.getConnection();
 
@@ -31,7 +33,7 @@ public class PlaylistDAO implements IPlaylistDAO {
         ResultSet rs = prep.executeQuery();
 
         if (!rs.next()) {
-            throw new SQLException("No playlists found.");
+            throw new PlaylistException("No playlists found.");
         } else {
             rs.beforeFirst();
 
@@ -53,7 +55,7 @@ public class PlaylistDAO implements IPlaylistDAO {
     }
 
     @Override
-    public boolean deletePlaylistById(int playlistId) throws SQLException {
+    public boolean deletePlaylistById(int playlistId) throws SQLException, PlaylistException {
         connection = dbCon.getConnection();
 
         String query = "DELETE FROM playlist where playlistid = ?";
@@ -63,14 +65,14 @@ public class PlaylistDAO implements IPlaylistDAO {
         int rs = prep.executeUpdate();
 
         if (rs == 0) {
-            throw new SQLException("No rows were Deleted.");
+            throw new PlaylistException("No rows were Deleted.");
         }
 
         return true;
     }
 
     @Override
-    public boolean createNewPlaylist(CreatePlaylistDTO newPlaylist, int userId) throws SQLException {
+    public boolean createNewPlaylist(CreatePlaylistDTO newPlaylist, int userId) throws SQLException, PlaylistException {
         connection = dbCon.getConnection();
 
         String query = "INSERT INTO playlist (name, owner) VALUES (?, ?)";
@@ -81,14 +83,14 @@ public class PlaylistDAO implements IPlaylistDAO {
         int rs = prep.executeUpdate();
 
         if (rs == 0) {
-            throw new SQLException("Playlist was not added.");
+            throw new PlaylistException("Playlist was not added.");
         }
 
         return true;
     }
 
     @Override
-    public boolean updatePlaylist(PlaylistDTO changedPlaylist) throws SQLException {
+    public boolean updatePlaylist(PlaylistDTO changedPlaylist) throws SQLException, PlaylistException {
         connection = dbCon.getConnection();
 
         String query = "UPDATE playlist SET name = ? WHERE playlistid = ?";
@@ -99,7 +101,7 @@ public class PlaylistDAO implements IPlaylistDAO {
         int rs = prep.executeUpdate();
 
         if (rs == 0) {
-            throw new SQLException("Playlist was not updated.");
+            throw new PlaylistException("Playlist was not updated.");
         }
 
         return true;
