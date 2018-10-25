@@ -6,6 +6,9 @@ import java.util.Properties;
 public class DBProperties implements IDBProperties {
     private Properties properties;
 
+    /**
+     * Constructor
+     */
     public DBProperties() {
         properties = new Properties();
 
