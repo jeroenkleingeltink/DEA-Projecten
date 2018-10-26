@@ -1,6 +1,7 @@
 package jeroen.school.dea.Services;
 
 import jeroen.school.dea.DataSource.IUserDAO;
+import jeroen.school.dea.DataSource.UserDAO;
 import jeroen.school.dea.Domain.LoginDTO;
 import jeroen.school.dea.Domain.UserDTO;
 import jeroen.school.dea.Exceptions.UserNotFoundException;
@@ -14,7 +15,7 @@ import java.sql.SQLException;
 @Path("/")
 public class LoginService {
     @Inject
-    private IUserDAO userDAO;
+    private UserDAO userDAO;
 
     public LoginService() {}
 
