@@ -5,7 +5,6 @@ import jeroen.school.dea.Domain.CreatePlaylistDTO;
 import jeroen.school.dea.Domain.PlaylistDTO;
 import jeroen.school.dea.Domain.PlaylistsDTO;
 import jeroen.school.dea.Exceptions.PlaylistException;
-import jeroen.school.dea.Exceptions.TrackException;
 
 import javax.inject.Inject;
 import java.sql.Connection;

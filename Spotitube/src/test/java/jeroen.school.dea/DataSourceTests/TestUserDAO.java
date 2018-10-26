@@ -6,6 +6,7 @@ import jeroen.school.dea.Domain.UserDTO;
 import jeroen.school.dea.Exceptions.UserNotFoundException;
 import org.junit.Test;
 
+import javax.transaction.Transactional;
 import java.sql.SQLException;
 
 import static org.mockito.Mockito.mock;

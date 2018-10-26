@@ -1,13 +1,12 @@
 package jeroen.school.dea.Services;
 
-import jeroen.school.dea.DataSource.IPlaylistDAO;
 import jeroen.school.dea.DataSource.IUserDAO;
+import jeroen.school.dea.DataSource.Utilities.IPlaylistMapper;
 import jeroen.school.dea.Domain.CreatePlaylistDTO;
 import jeroen.school.dea.Domain.PlaylistDTO;
 import jeroen.school.dea.Domain.PlaylistsDTO;
 import jeroen.school.dea.Exceptions.PlaylistException;
 import jeroen.school.dea.Exceptions.UnauthorizedException;
-import sun.security.provider.certpath.OCSPResponse;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -23,7 +22,7 @@ public class PlaylistService {
     private IUserDAO user;
 
     @Inject
-    private IPlaylistDAO playlist;
+    private IPlaylistMapper playlist;
 
     /**
      * Creates a new playlist by userId
@@ -143,11 +142,14 @@ public class PlaylistService {
         try {
             userId = user.validate(token);
 
-            if (playlist.deletePlaylistById(playlistId)) {
+            if (!playlist.deletePlaylistById(playlistId)) {
 
-                playlists = playlist.getAllPlayListsByToken(userId);
+                throw new PlaylistException();
 
             }
+
+            playlists = playlist.getAllPlayListsByToken(userId);
+
         } catch (SQLException e) {
             e.printStackTrace();
 
