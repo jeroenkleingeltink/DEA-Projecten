@@ -1,0 +1,4 @@
+Het adapter pattern leunt sterk op het Interface Segregation Principle (ISP). 
+Door adapters aan te maken kunnen meerdere client-specific interfaces gemaakt worden zonder dat je de caller hoeft te veranderen.
+Hierdoor kan je verschillende classes via een adapter onder de zelfde interface hangen en via een call methode afhandeling in
+meerder classes doen. hierdoor is het veel makkelijker om single responsibility principle toe te passen
