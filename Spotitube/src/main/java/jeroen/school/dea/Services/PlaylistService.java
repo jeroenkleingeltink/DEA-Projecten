@@ -1,15 +1,16 @@
 package jeroen.school.dea.Services;
 
-import jeroen.school.dea.DataSource.IUserDAO;
+import jeroen.school.dea.DataSource.DAO.IUserDAO;
 import jeroen.school.dea.DataSource.Utilities.IPlaylistMapper;
-import jeroen.school.dea.Domain.CreatePlaylistDTO;
-import jeroen.school.dea.Domain.PlaylistDTO;
-import jeroen.school.dea.Domain.PlaylistsDTO;
+import jeroen.school.dea.Domain.PlaylistDTOS.CreatePlaylistDTO;
+import jeroen.school.dea.Domain.PlaylistDTOS.PlaylistDTO;
+import jeroen.school.dea.Domain.PlaylistDTOS.PlaylistsDTO;
 import jeroen.school.dea.Exceptions.PlaylistException;
 import jeroen.school.dea.Exceptions.UnauthorizedException;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.sql.SQLException;
 
@@ -32,6 +33,8 @@ public class PlaylistService {
      */
     @POST
     @Path("/playlists")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response createPlaylist(@QueryParam("token") String token, CreatePlaylistDTO newPlaylist) {
         playlists = new PlaylistsDTO();
 
@@ -67,6 +70,8 @@ public class PlaylistService {
      */
     @GET
     @Path("/playlists")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response getAllPlayLists(@QueryParam("token") String token) {
         playlists = new PlaylistsDTO();
 
@@ -100,6 +105,8 @@ public class PlaylistService {
      */
     @PUT
     @Path("playlists/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response editPlaylist(@QueryParam("token") String token, PlaylistDTO playlistDTO) {
         playlists = new PlaylistsDTO();
 
@@ -136,6 +143,8 @@ public class PlaylistService {
      */
     @DELETE
     @Path("/playlists/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response deletePlayListById(@PathParam("id") int playlistId, @QueryParam("token") String token) {
         playlists = new PlaylistsDTO();
 

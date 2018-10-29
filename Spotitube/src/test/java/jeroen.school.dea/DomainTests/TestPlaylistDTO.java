@@ -1,6 +1,6 @@
 package jeroen.school.dea.DomainTests;
 
-import jeroen.school.dea.Domain.PlaylistsDTO;
+import jeroen.school.dea.Domain.PlaylistDTOS.PlaylistsDTO;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

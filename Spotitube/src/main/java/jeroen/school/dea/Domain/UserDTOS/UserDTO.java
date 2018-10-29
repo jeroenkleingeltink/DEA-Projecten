@@ -1,4 +1,4 @@
-package jeroen.school.dea.Domain;
+package jeroen.school.dea.Domain.UserDTOS;
 
 public class UserDTO {
     private String token;

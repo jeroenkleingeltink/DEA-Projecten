@@ -1,4 +1,4 @@
-package jeroen.school.dea.Domain;
+package jeroen.school.dea.Domain.TrackDTOS;
 
 public class AddTrackDTO {
     private int id;

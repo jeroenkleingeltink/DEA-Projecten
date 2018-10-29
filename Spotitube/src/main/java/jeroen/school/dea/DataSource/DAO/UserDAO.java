@@ -1,13 +1,12 @@
-package jeroen.school.dea.DataSource;
+package jeroen.school.dea.DataSource.DAO;
 
 import jeroen.school.dea.DataSource.Utilities.IDBConnection;
 import jeroen.school.dea.Exceptions.UnauthorizedException;
 import jeroen.school.dea.Exceptions.UserNotFoundException;
-import jeroen.school.dea.Domain.LoginDTO;
-import jeroen.school.dea.Domain.UserDTO;
+import jeroen.school.dea.Domain.UserDTOS.LoginDTO;
+import jeroen.school.dea.Domain.UserDTOS.UserDTO;
 
 import javax.inject.Inject;
-import javax.ws.rs.NotAuthorizedException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

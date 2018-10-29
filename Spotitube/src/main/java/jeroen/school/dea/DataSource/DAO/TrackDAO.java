@@ -1,12 +1,11 @@
-package jeroen.school.dea.DataSource;
+package jeroen.school.dea.DataSource.DAO;
 
 import jeroen.school.dea.DataSource.Utilities.IDBConnection;
-import jeroen.school.dea.Domain.TrackDTO;
-import jeroen.school.dea.Domain.TracksDTO;
+import jeroen.school.dea.Domain.TrackDTOS.TrackDTO;
+import jeroen.school.dea.Domain.TrackDTOS.TracksDTO;
 import jeroen.school.dea.Exceptions.TrackException;
 
 import javax.inject.Inject;
-import javax.sound.midi.Track;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

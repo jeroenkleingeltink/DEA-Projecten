@@ -1,9 +1,9 @@
-package jeroen.school.dea.DataSource;
+package jeroen.school.dea.DataSource.DAO;
 
 import jeroen.school.dea.DataSource.Utilities.IDBConnection;
-import jeroen.school.dea.Domain.CreatePlaylistDTO;
-import jeroen.school.dea.Domain.PlaylistDTO;
-import jeroen.school.dea.Domain.PlaylistsDTO;
+import jeroen.school.dea.Domain.PlaylistDTOS.CreatePlaylistDTO;
+import jeroen.school.dea.Domain.PlaylistDTOS.PlaylistDTO;
+import jeroen.school.dea.Domain.PlaylistDTOS.PlaylistsDTO;
 import jeroen.school.dea.Exceptions.PlaylistException;
 
 import javax.inject.Inject;

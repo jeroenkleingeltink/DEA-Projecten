@@ -1,8 +1,8 @@
 package jeroen.school.dea.Services;
 
-import jeroen.school.dea.DataSource.IUserDAO;
-import jeroen.school.dea.Domain.LoginDTO;
-import jeroen.school.dea.Domain.UserDTO;
+import jeroen.school.dea.DataSource.DAO.IUserDAO;
+import jeroen.school.dea.Domain.UserDTOS.LoginDTO;
+import jeroen.school.dea.Domain.UserDTOS.UserDTO;
 import jeroen.school.dea.Exceptions.UserNotFoundException;
 
 import javax.inject.Inject;
@@ -21,6 +21,7 @@ public class LoginService {
     @POST
     @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response login(LoginDTO user) {
         UserDTO loggedInUser = new UserDTO();
 

@@ -1,16 +1,16 @@
 package jeroen.school.dea.Services;
 
-import jeroen.school.dea.DataSource.ITrackDAO;
-import jeroen.school.dea.DataSource.IUserDAO;
-import jeroen.school.dea.Domain.AddTrackDTO;
-import jeroen.school.dea.Domain.TracksDTO;
+import jeroen.school.dea.DataSource.DAO.ITrackDAO;
+import jeroen.school.dea.DataSource.DAO.IUserDAO;
+import jeroen.school.dea.Domain.TrackDTOS.AddTrackDTO;
+import jeroen.school.dea.Domain.TrackDTOS.TracksDTO;
 import jeroen.school.dea.Exceptions.TrackException;
 import jeroen.school.dea.Exceptions.UnauthorizedException;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 
 @Path("/")
@@ -26,6 +26,8 @@ public class TrackService {
 
     @GET
     @Path("/tracks")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response getAllTracksNotInPlaylist(@QueryParam("forPlaylist") int playlistId, @QueryParam("token") String token) {
         tracks = new TracksDTO();
 
@@ -51,6 +53,8 @@ public class TrackService {
 
     @GET
     @Path("/playlists/{id}/tracks")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response getAllPlaylistTracks(@QueryParam("token") String token, @PathParam("id") int playlistId) {
         tracks = new TracksDTO();
 
@@ -78,6 +82,8 @@ public class TrackService {
 
     @DELETE
     @Path("/playlists/{playlistId}/tracks/{trackId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response deleteTrackFromPlaylist(@PathParam("playlistId") int playlistId,
                                             @PathParam("trackId") int trackId,
                                             @QueryParam("token") String token) {
@@ -109,6 +115,8 @@ public class TrackService {
 
     @POST
     @Path("/playlists/{id}/tracks")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response addTrackToPlaylist(@PathParam("id") int playlistId, @QueryParam("token") String token, AddTrackDTO pTrack) {
         tracks = new TracksDTO();
 

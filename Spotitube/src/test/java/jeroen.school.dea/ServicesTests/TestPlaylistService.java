@@ -1,10 +1,9 @@
 package jeroen.school.dea.ServicesTests;
 
-import jeroen.school.dea.DataSource.IUserDAO;
+import jeroen.school.dea.DataSource.DAO.IUserDAO;
 import jeroen.school.dea.DataSource.Utilities.IPlaylistMapper;
-import jeroen.school.dea.DataSource.Utilities.PlaylistMapper;
-import jeroen.school.dea.Domain.CreatePlaylistDTO;
-import jeroen.school.dea.Domain.PlaylistsDTO;
+import jeroen.school.dea.Domain.PlaylistDTOS.CreatePlaylistDTO;
+import jeroen.school.dea.Domain.PlaylistDTOS.PlaylistsDTO;
 import jeroen.school.dea.Exceptions.PlaylistException;
 import jeroen.school.dea.Exceptions.UnauthorizedException;
 import jeroen.school.dea.Services.PlaylistService;
@@ -18,10 +17,8 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import javax.ws.rs.core.Response;
-
 import java.sql.SQLException;
 
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
 

@@ -1,4 +1,4 @@
-package jeroen.school.dea.Domain;
+package jeroen.school.dea.Domain.PlaylistDTOS;
 
 import java.util.ArrayList;
 import java.util.List;

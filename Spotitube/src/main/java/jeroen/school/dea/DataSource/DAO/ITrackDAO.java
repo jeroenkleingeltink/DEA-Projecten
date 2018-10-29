@@ -1,6 +1,6 @@
-package jeroen.school.dea.DataSource;
+package jeroen.school.dea.DataSource.DAO;
 
-import jeroen.school.dea.Domain.TracksDTO;
+import jeroen.school.dea.Domain.TrackDTOS.TracksDTO;
 import jeroen.school.dea.Exceptions.TrackException;
 
 import java.sql.SQLException;
