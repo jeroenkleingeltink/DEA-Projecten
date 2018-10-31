@@ -69,8 +69,6 @@ public class HibernatePlaylistDAO implements IHibernatePlaylistDAO {
 
             for (Iterator i = pl.iterator(); i.hasNext();) {
                 playlists.getPlaylists().add((PlaylistEntity) i.next());
-//                PlaylistEntity pe = (PlaylistEntity) i.next();
-//                System.out.println(pe.getName());
             }
 
             tx.commit();

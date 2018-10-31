@@ -23,9 +23,6 @@
             .sWWZ%.tRBCBnzNw&amp;Hh>tti)
         </property>
 
-
-
-
         <mapping resource = "PlaylistEntity.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

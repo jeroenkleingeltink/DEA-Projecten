@@ -16,6 +16,5 @@
 
         <property name = "name" column = "name" type = "string"/>
         <property name = "owner" column = "owner" type = "int"/>
-
     </class>
 </hibernate-mapping>

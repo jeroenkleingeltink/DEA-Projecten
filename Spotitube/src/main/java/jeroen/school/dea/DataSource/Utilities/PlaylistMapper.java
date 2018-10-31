@@ -1,9 +1,11 @@
 package jeroen.school.dea.DataSource.Utilities;
 
+import jeroen.school.dea.DataSource.DAO.IHibernatePlaylistDAO;
 import jeroen.school.dea.DataSource.DAO.IPlaylistDAO;
 import jeroen.school.dea.Domain.PlaylistDTOS.CreatePlaylistDTO;
 import jeroen.school.dea.Domain.PlaylistDTOS.PlaylistDTO;
 import jeroen.school.dea.Domain.PlaylistDTOS.PlaylistsDTO;
+import jeroen.school.dea.Domain.PlaylistsEntity;
 import jeroen.school.dea.Exceptions.PlaylistException;
 
 import javax.ejb.Singleton;
@@ -15,9 +17,13 @@ public class PlaylistMapper implements IPlaylistMapper {
     @Inject
     private IPlaylistDAO playlistDAO;
 
+    @Inject
+    private IHibernatePlaylistDAO hPlaylistDAO;
+
     private static PlaylistMapper instance;
 
     private PlaylistsDTO playlistsIdentity = new PlaylistsDTO();
+    private PlaylistsEntity hPlaylistsIdentity = new PlaylistsEntity();
 
     private boolean hasPropertyChanged = true;
 
@@ -47,6 +53,23 @@ public class PlaylistMapper implements IPlaylistMapper {
         return playlistsIdentity;
     }
 
+    public PlaylistsEntity getAllPlayListsByTokenHibernate(int userId) {
+        PlaylistsEntity playlists = new PlaylistsEntity();
+
+        if(hasPropertyChanged) {
+
+            playlists = hPlaylistDAO.getAllPlayListsByToken(userId);
+
+            hPlaylistsIdentity = playlists;
+
+            hasPropertyChanged = false;
+
+            return playlists;
+        }
+
+        return hPlaylistsIdentity;
+    }
+
     @Override
     public boolean deletePlaylistById(int playlistId) throws SQLException, PlaylistException {
         if (!playlistDAO.deletePlaylistById(playlistId)) {
@@ -62,7 +85,8 @@ public class PlaylistMapper implements IPlaylistMapper {
 
     @Override
     public boolean createNewPlaylist(CreatePlaylistDTO newPlaylist, int userId) throws SQLException, PlaylistException {
-        if (!playlistDAO.createNewPlaylist(newPlaylist, userId)) {
+//        if (!playlistDAO.createNewPlaylist(newPlaylist, userId)) {
+        if (!hPlaylistDAO.createNewPlaylist(newPlaylist, userId)) {
 
             return false;
 
