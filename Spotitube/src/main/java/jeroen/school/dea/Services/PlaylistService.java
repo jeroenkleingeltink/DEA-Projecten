@@ -1,10 +1,12 @@
 package jeroen.school.dea.Services;
 
+import jeroen.school.dea.DataSource.DAO.IHibernatePlaylistDAO;
 import jeroen.school.dea.DataSource.DAO.IUserDAO;
 import jeroen.school.dea.DataSource.Utilities.IPlaylistMapper;
 import jeroen.school.dea.Domain.PlaylistDTOS.CreatePlaylistDTO;
 import jeroen.school.dea.Domain.PlaylistDTOS.PlaylistDTO;
 import jeroen.school.dea.Domain.PlaylistDTOS.PlaylistsDTO;
+import jeroen.school.dea.Domain.PlaylistsEntity;
 import jeroen.school.dea.Exceptions.PlaylistException;
 import jeroen.school.dea.Exceptions.UnauthorizedException;
 
@@ -23,6 +25,9 @@ public class PlaylistService {
     private IUserDAO user;
 
     @Inject
+    private IHibernatePlaylistDAO hPlaylist;
+
+    @Inject
     private IPlaylistMapper playlist;
 
     /**
@@ -31,20 +36,53 @@ public class PlaylistService {
      * @param newPlaylist
      * @return List of current playlists based on userId
      */
+//    @POST
+//    @Path("/playlists")
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response createPlaylist(@QueryParam("token") String token, CreatePlaylistDTO newPlaylist) {
+//        playlists = new PlaylistsDTO();
+//
+//        try {
+//            userId = user.validate(token);
+//
+//            if (playlist.createNewPlaylist(newPlaylist, userId)) {
+//
+//                playlists = playlist.getAllPlayListsByToken(userId);
+//
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//
+//            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+//        } catch (UnauthorizedException e) {
+//            e.printStackTrace();
+//
+//            return Response.status(Response.Status.UNAUTHORIZED).build();
+//        } catch (PlaylistException e) {
+//            e.printStackTrace();
+//
+//            return Response.status(Response.Status.BAD_REQUEST).build();
+//        }
+//
+//        return Response.ok().entity(playlists).build();
+//    }
+
     @POST
     @Path("/playlists")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createPlaylist(@QueryParam("token") String token, CreatePlaylistDTO newPlaylist) {
-        playlists = new PlaylistsDTO();
+        PlaylistsEntity playlists = new PlaylistsEntity();
 
         try {
             userId = user.validate(token);
 
-            if (playlist.createNewPlaylist(newPlaylist, userId)) {
+            if (hPlaylist.createNewPlaylist(newPlaylist, userId)) {
+                System.out.println("get playlists");
+//                playlists = playlist.getAllPlayListsByToken(userId);
 
-                playlists = playlist.getAllPlayListsByToken(userId);
-
+                playlists = hPlaylist.getAllPlayListsByToken(userId);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -54,10 +92,6 @@ public class PlaylistService {
             e.printStackTrace();
 
             return Response.status(Response.Status.UNAUTHORIZED).build();
-        } catch (PlaylistException e) {
-            e.printStackTrace();
-
-            return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
         return Response.ok().entity(playlists).build();

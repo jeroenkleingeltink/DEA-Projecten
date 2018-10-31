@@ -26,6 +26,6 @@
 
 
 
-        <mapping resource = "Employee.hbm.xml"/>
+        <mapping resource = "PlaylistEntity.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

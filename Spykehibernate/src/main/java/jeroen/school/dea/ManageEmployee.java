@@ -9,7 +9,6 @@ import org.hibernate.cfg.Configuration;
 import java.util.Iterator;
 import java.util.List;
 
-
 public class ManageEmployee {
     private static SessionFactory factory;
 
