@@ -49,9 +49,9 @@ public class HibernatePlaylistDAO implements IHibernatePlaylistDAO {
             e.printStackTrace();
         } finally {
             session.close();
-
-            return true;
         }
+
+        return true;
     }
 
     @Override
@@ -69,8 +69,8 @@ public class HibernatePlaylistDAO implements IHibernatePlaylistDAO {
 
             for (Iterator i = pl.iterator(); i.hasNext();) {
                 playlists.getPlaylists().add((PlaylistEntity) i.next());
-                PlaylistEntity pe = (PlaylistEntity) i.next();
-                System.out.println(pe.getName());
+//                PlaylistEntity pe = (PlaylistEntity) i.next();
+//                System.out.println(pe.getName());
             }
 
             tx.commit();
